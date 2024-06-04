@@ -6,6 +6,7 @@ const server = http.createServer((request, response) => {
   let filename;
   switch (request.url) {
     case "/":
+      console.log('home page is requesting.');
       filename = "home.html";
       response.statusCode = 200;
       break;
