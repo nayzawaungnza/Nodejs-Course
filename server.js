@@ -1,12 +1,14 @@
 const http = require("http");
 const fs = require("fs");
+const _ = require("lodash");
 
+console.log(_.range(5));
 const server = http.createServer((request, response) => {
   console.log("request make from client");
   let filename;
   switch (request.url) {
     case "/":
-      console.log('home page is requesting.');
+      console.log("home page is requesting.");
       filename = "home.html";
       response.statusCode = 200;
       break;
