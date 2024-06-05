@@ -11,6 +11,10 @@ let blogs = [
   { title: "title 2", des: "des 2" },
   { title: "title 3", des: "des 3" },
 ];
+app.use((request, response, next) => {
+  console.log("first middleware running");
+  next();
+});
 app.get("/", (request, response) => {
   //response.send("<h1>Hello Home</h1>");
   //response.sendFile("./views/home.html", { root: __dirname });
@@ -26,7 +30,10 @@ app.get("/about", (request, response) => {
 app.get("/about-us", (request, response) => {
   response.redirect("/about");
 });
-
+app.use((request, response, next) => {
+  console.log("second middleware running");
+  next();
+});
 app.get("/contact", (request, response) => {
   //response.send("<h1>Hello about</h1>");
   //response.sendFile("./views/contact.html", { root: __dirname });
