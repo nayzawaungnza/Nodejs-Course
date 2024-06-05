@@ -6,11 +6,7 @@
     <title>Home</title>
   </head>
   <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/about">about</a>
-      <a href="/contact">contact</a>
-    </nav>
+    <%- include('./components/navbar.ejs') %>
     <h1>Hello Friend</h1>
     <h5>This is Home Page</h5>
     <% if(blogs.length){ %> <% blogs.forEach(blog => { %>
