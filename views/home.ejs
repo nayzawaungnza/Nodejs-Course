@@ -3,13 +3,16 @@
   <%- include('./components/head.ejs') %>
   <body>
     <%- include('./components/navbar.ejs') %>
-    <h1>Hello Friend</h1>
-    <h5>This is Home Page</h5>
-    <% if(blogs.length){ %> <% blogs.forEach(blog => { %>
-    <h1><%= blog.title %></h1>
-    <p><%= blog.des %></p>
-    <% }); %> <% }else{ %>
-    <h3>No blogs found.</h3>
-    <% } %>
+    <div class="container">
+      <h5>This is Home Page</h5>
+      <% if(blogs.length){ %> <% blogs.forEach(blog => { %>
+      <div class="blog-card">
+        <h1><%= blog.title %></h1>
+        <p><%= blog.des %></p>
+      </div>
+      <% }); %> <% }else{ %>
+      <h3>No blogs found.</h3>
+      <% } %>
+    </div>
   </body>
 </html>
