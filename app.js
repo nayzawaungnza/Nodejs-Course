@@ -6,6 +6,7 @@ const app = express();
 app.set("views", "./views");
 app.set("view engine", "ejs");
 app.use(morgan("dev"));
+app.use(express.static("public"));
 
 let blogs = [
   { title: "title 1", des: "des 1" },
