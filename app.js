@@ -6,10 +6,15 @@ const app = express();
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
+let blogs = [
+  { title: "title 1", des: "des 1" },
+  { title: "title 2", des: "des 2" },
+  { title: "title 3", des: "des 3" },
+];
 app.get("/", (request, response) => {
   //response.send("<h1>Hello Home</h1>");
   //response.sendFile("./views/home.html", { root: __dirname });
-  response.render("home");
+  response.render("home", { blogs: blogs });
 });
 
 app.get("/about", (request, response) => {
