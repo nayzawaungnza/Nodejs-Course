@@ -36,13 +36,6 @@ app.get("/", async (request, response) => {
   response.render("home", { blogs: blogs, title: "Home" });
 });
 
-app.get("/blogs/:id", async (request, response) => {
-  let { id } = request.params;
-  //console.log(id);
-  let blog = await Blog.findById(id);
-  response.render("./blogs/show", { blog, title: "Blog Single" });
-});
-
 app.get("/about", (request, response) => {
   response.render("about", { title: "About" });
 });
@@ -59,6 +52,18 @@ app.get("/blogs/create", (request, response) => {
   response.render("blogs/create", { title: "Blog Create" });
 });
 
+app.get("/blogs/:id", async (request, response,next) => {
+  try {
+    let { id } = request.params;
+  //console.log(id);
+  let blog = await Blog.findById(id);
+  response.render("./blogs/show", { blog, title: "Blog Single" });
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+});
+
 app.post("/blogs", async (request, response) => {
   let { title, intro, body } = request.body;
   let blog = new Blog({
@@ -70,15 +75,6 @@ app.post("/blogs", async (request, response) => {
   response.redirect("/");
 });
 
-app.get("/add-blog", async (request, response) => {
-  let blog = new Blog({
-    title: "blog title 4",
-    intro: "blog intro 4",
-    body: "blog body 4",
-  });
-  await blog.save();
-  response.send("blog created.");
-});
 
 app.use((request, response) => {
   //response.sendFile("./views/404.html", { root: __dirname });
