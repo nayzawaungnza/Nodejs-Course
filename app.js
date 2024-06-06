@@ -1,21 +1,18 @@
 const express = require("express");
 let morgan = require("morgan");
-const mongooes = require("mongoose");
-const { MongoClient } = require("mongodb");
-
+const mongoose = require("mongoose");
+const Blog = require("./model/Blog");
 const app = express();
 
 //dburl
 let mongoUrl =
   "mongodb+srv://nayzawaung:nayzawaung12345@cluster0.u5l4zut.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const client = new MongoClient(mongoUrl);
-client
+mongoose
   .connect(mongoUrl)
   .then(() => {
-    console.log("connected to Mongodb.");
-    //app.listen(3000);
+    console.log("connected to db");
     app.listen(3000, () => {
-      console.log("App is running in port 3000.");
+      console.log("app is running on port 3000");
     });
   })
   .catch((e) => {
@@ -54,6 +51,17 @@ app.get("/contact", (request, response) => {
   //response.sendFile("./views/contact.html", { root: __dirname });
   response.render("contact", { title: "Contact" });
 });
+
+app.get("/add-blog", async (request, response) => {
+  let blog = new Blog({
+    title: "blog title 3",
+    intro: "blog intro 3",
+    body: "blog body 3",
+  });
+  await blog.save();
+  response.send("blog created.");
+});
+
 app.use((request, response) => {
   //response.sendFile("./views/404.html", { root: __dirname });
   response.status(404).render("404", { title: "404" });
