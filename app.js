@@ -2,6 +2,8 @@ const express = require("express");
 let morgan = require("morgan");
 const mongoose = require("mongoose");
 const Blog = require("./model/Blog");
+
+var expressLayouts = require("express-ejs-layouts");
 const app = express();
 
 //dburl
@@ -21,14 +23,11 @@ mongoose
 // using ejs package
 app.set("views", "./views");
 app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "layouts/layout");
+
 app.use(morgan("dev"));
 app.use(express.static("public"));
-
-// let blogs = [
-//   { title: "title 1", des: "des 1" },
-//   { title: "title 2", des: "des 2" },
-//   { title: "title 3", des: "des 3" },
-// ];
 
 app.get("/", async (request, response) => {
   let blogs = await Blog.find().sort({ createdAt: -1 });
@@ -41,8 +40,6 @@ app.get("/single-blog", async (request, response) => {
 });
 
 app.get("/about", (request, response) => {
-  //response.send("<h1>Hello about</h1>");
-  //response.sendFile("./views/about.html", { root: __dirname });
   response.render("about", { title: "About" });
 });
 
@@ -51,9 +48,11 @@ app.get("/about-us", (request, response) => {
 });
 
 app.get("/contact", (request, response) => {
-  //response.send("<h1>Hello about</h1>");
-  //response.sendFile("./views/contact.html", { root: __dirname });
   response.render("contact", { title: "Contact" });
+});
+
+app.get("/blogs/create", (request, response) => {
+  response.render("blogs/create", { title: "Blog Create" });
 });
 
 app.get("/add-blog", async (request, response) => {
