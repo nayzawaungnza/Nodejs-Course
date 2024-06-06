@@ -2,7 +2,7 @@ const express = require("express");
 let morgan = require("morgan");
 const mongoose = require("mongoose");
 const Blog = require("./model/Blog");
-
+const BlogRoutes = require("./route/BlogRoutes");
 var expressLayouts = require("express-ejs-layouts");
 const app = express();
 
@@ -32,10 +32,14 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 
 app.get("/", async (request, response) => {
+  response.redirect("/blogs");
+});
+
+app.get("/blogs", async (request, response) => {
   let blogs = await Blog.find().sort({ createdAt: -1 });
   response.render("home", { blogs: blogs, title: "Home" });
 });
-
+app.use(BlogRoutes);
 app.get("/about", (request, response) => {
   response.render("about", { title: "About" });
 });
@@ -47,45 +51,6 @@ app.get("/about-us", (request, response) => {
 app.get("/contact", (request, response) => {
   response.render("contact", { title: "Contact" });
 });
-
-app.get("/blogs/create", (request, response) => {
-  response.render("blogs/create", { title: "Blog Create" });
-});
-
-app.get("/blogs/:id", async (request, response, next) => {
-  try {
-    let { id } = request.params;
-    //console.log(id);
-    let blog = await Blog.findById(id);
-    response.render("./blogs/show", { blog, title: "Blog Single" });
-  } catch (error) {
-    console.log(error);
-    next();
-  }
-});
-
-app.post("/blogs/:id/delete", async (request, response, next) => {
-  try {
-    let { id } = request.params;
-    await Blog.findByIdAndDelete(id);
-    response.redirect("/");
-  } catch (error) {
-    console.log(error);
-    next();
-  }
-});
-
-app.post("/blogs", async (request, response) => {
-  let { title, intro, body } = request.body;
-  let blog = new Blog({
-    title: title,
-    intro: intro,
-    body: body,
-  });
-  await blog.save();
-  response.redirect("/");
-});
-
 app.use((request, response) => {
   //response.sendFile("./views/404.html", { root: __dirname });
   response.status(404).render("404", { title: "404" });
