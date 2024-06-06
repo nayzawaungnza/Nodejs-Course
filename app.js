@@ -35,10 +35,7 @@ app.get("/", async (request, response) => {
   response.redirect("/blogs");
 });
 
-app.get("/blogs", async (request, response) => {
-  let blogs = await Blog.find().sort({ createdAt: -1 });
-  response.render("home", { blogs: blogs, title: "Home" });
-});
+
 app.use(BlogRoutes);
 app.get("/about", (request, response) => {
   response.render("about", { title: "About" });
