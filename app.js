@@ -24,16 +24,20 @@ app.set("view engine", "ejs");
 app.use(morgan("dev"));
 app.use(express.static("public"));
 
-let blogs = [
-  { title: "title 1", des: "des 1" },
-  { title: "title 2", des: "des 2" },
-  { title: "title 3", des: "des 3" },
-];
+// let blogs = [
+//   { title: "title 1", des: "des 1" },
+//   { title: "title 2", des: "des 2" },
+//   { title: "title 3", des: "des 3" },
+// ];
 
-app.get("/", (request, response) => {
-  //response.send("<h1>Hello Home</h1>");
-  //response.sendFile("./views/home.html", { root: __dirname });
+app.get("/", async (request, response) => {
+  let blogs = await Blog.find().sort({ createdAt: -1 });
   response.render("home", { blogs: blogs, title: "Home" });
+});
+
+app.get("/single-blog", async (request, response) => {
+  let blog = await Blog.findById("6661216d3270fd9ad2379711");
+  response.json(blog);
 });
 
 app.get("/about", (request, response) => {
@@ -54,9 +58,9 @@ app.get("/contact", (request, response) => {
 
 app.get("/add-blog", async (request, response) => {
   let blog = new Blog({
-    title: "blog title 3",
-    intro: "blog intro 3",
-    body: "blog body 3",
+    title: "blog title 4",
+    intro: "blog intro 4",
+    body: "blog body 4",
   });
   await blog.save();
   response.send("blog created.");
