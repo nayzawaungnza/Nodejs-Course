@@ -1,11 +1,26 @@
 const express = require("express");
 let morgan = require("morgan");
+const mongooes = require("mongoose");
+const { MongoClient } = require("mongodb");
 
 const app = express();
 
 //dburl
-const mongoUrl =
-  "mongodb+srv://nayzawaung:256530563!@#@cluster0.u5l4zut.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+let mongoUrl =
+  "mongodb+srv://nayzawaung:nayzawaung12345@cluster0.u5l4zut.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const client = new MongoClient(mongoUrl);
+client
+  .connect(mongoUrl)
+  .then(() => {
+    console.log("connected to Mongodb.");
+    //app.listen(3000);
+    app.listen(3000, () => {
+      console.log("App is running in port 3000.");
+    });
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 // using ejs package
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -42,9 +57,4 @@ app.get("/contact", (request, response) => {
 app.use((request, response) => {
   //response.sendFile("./views/404.html", { root: __dirname });
   response.status(404).render("404", { title: "404" });
-});
-
-//app.listen(3000);
-app.listen(3000, () => {
-  console.log("App is running in port 3000.");
 });
