@@ -36,9 +36,11 @@ app.get("/", async (request, response) => {
   response.render("home", { blogs: blogs, title: "Home" });
 });
 
-app.get("/single-blog", async (request, response) => {
-  let blog = await Blog.findById("6661216d3270fd9ad2379711");
-  response.json(blog);
+app.get("/blogs/:id", async (request, response) => {
+  let { id } = request.params;
+  //console.log(id);
+  let blog = await Blog.findById(id);
+  response.render("./blogs/show", { blog, title: "Blog Single" });
 });
 
 app.get("/about", (request, response) => {
