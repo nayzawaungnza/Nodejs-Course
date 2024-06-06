@@ -6,6 +6,8 @@ const Blog = require("./model/Blog");
 var expressLayouts = require("express-ejs-layouts");
 const app = express();
 
+app.use(express.urlencoded({ extended: true })); // form input data pass
+
 //dburl
 let mongoUrl =
   "mongodb+srv://nayzawaung:nayzawaung12345@cluster0.u5l4zut.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -53,6 +55,17 @@ app.get("/contact", (request, response) => {
 
 app.get("/blogs/create", (request, response) => {
   response.render("blogs/create", { title: "Blog Create" });
+});
+
+app.post("/blogs", async (request, response) => {
+  let { title, intro, body } = request.body;
+  let blog = new Blog({
+    title: title,
+    intro: intro,
+    body: body,
+  });
+  await blog.save();
+  response.redirect("/");
 });
 
 app.get("/add-blog", async (request, response) => {
