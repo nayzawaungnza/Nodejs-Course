@@ -52,12 +52,23 @@ app.get("/blogs/create", (request, response) => {
   response.render("blogs/create", { title: "Blog Create" });
 });
 
-app.get("/blogs/:id", async (request, response,next) => {
+app.get("/blogs/:id", async (request, response, next) => {
   try {
     let { id } = request.params;
-  //console.log(id);
-  let blog = await Blog.findById(id);
-  response.render("./blogs/show", { blog, title: "Blog Single" });
+    //console.log(id);
+    let blog = await Blog.findById(id);
+    response.render("./blogs/show", { blog, title: "Blog Single" });
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+});
+
+app.post("/blogs/:id/delete", async (request, response, next) => {
+  try {
+    let { id } = request.params;
+    await Blog.findByIdAndDelete(id);
+    response.redirect("/");
   } catch (error) {
     console.log(error);
     next();
@@ -74,7 +85,6 @@ app.post("/blogs", async (request, response) => {
   await blog.save();
   response.redirect("/");
 });
-
 
 app.use((request, response) => {
   //response.sendFile("./views/404.html", { root: __dirname });

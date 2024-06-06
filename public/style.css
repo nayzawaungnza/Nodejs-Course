@@ -72,3 +72,11 @@ body{
     border: 1px solid green;
     color: white;
   }
+  .blog-delete-btn {
+    background-color: red;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 20px;
+    border: 1px solid rgb(128, 0, 0);
+    color: white;
+  }
