@@ -23,12 +23,18 @@
   </body>
   <script type="text/babel">
     const Main = () => {
+      let name = "Nay zaw";
+      let number = 20;
+      let myClass = "text-center";
+      let clickhandler = () => {
+        alert("hi, clicking");
+      };
       return (
-        // comment section
-        <div className="text-class">
-          <h6>This is Main Section</h6>
-
-          <p>Hi there</p>
+        <div className={myClass}>
+          <h1>{name.toUpperCase()} </h1>
+          <p>{number}</p>
+          <p>{new Date().toDateString()}</p>
+          <button onClick={clickhandler}>click me</button>
         </div>
       );
     };
