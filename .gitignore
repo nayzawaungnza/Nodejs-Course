@@ -1,1 +1,9 @@
-node_modules
+/node_modules
+/controller
+/node_modules
+/public
+/route
+/views
+app.js
+package.json
+server.js
