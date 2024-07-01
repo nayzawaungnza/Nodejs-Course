@@ -14,8 +14,7 @@ export default function App() {
     setCount((prevState) => prevState + 1);
   };
   let deletePost = (id) => {
-    let newPosts = prevState.filter((post) => post.id !== id);
-    setPosts(newPosts);
+    setPosts((prevState) => prevState.filter((post) => post.id !== id));
   };
   return (
     <div>
